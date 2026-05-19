@@ -1,0 +1,49 @@
+version: "1.0"
+agent_id: "hacker-news-daily-digest"
+
+tables:
+  result_stories:
+    description: "Stores Hacker News front-page story metadata collected by hourly and dashboard Run now workflows for the server-backed Stories and History tabs."
+    writable: true
+    write_mode: upsert
+    columns:
+      id:
+        type: string
+        primary_key: true
+        required: true
+        description: Hacker News story identifier.
+      title:
+        type: string
+        required: true
+        description: Story title.
+      url:
+        type: string
+        required: true
+        description: Story URL used by the dashboard title link.
+      points:
+        type: integer
+        required: true
+        description: Current story points at fetch time.
+      author:
+        type: string
+        required: true
+        description: Hacker News username that posted the story.
+      comments:
+        type: integer
+        required: true
+        description: Current comment count at fetch time.
+      posted_at:
+        type: datetime
+        required: true
+        description: Derived posted datetime from story age at fetch time when needed.
+      run_id:
+        type: string
+        description: Platform run identifier added by the OpenClaw data writer for auditability.
+      computed_at:
+        type: datetime
+        description: Timestamp added by the OpenClaw data writer when the row was computed.
+    conflict_columns:
+      - id
+    indexes:
+      - columns: [points]
+        name: idx_result_stories_points_desc

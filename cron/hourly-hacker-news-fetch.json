@@ -1,0 +1,16 @@
+{
+  "name": "hourly-hacker-news-fetch",
+  "enabled": true,
+  "schedule": {
+    "kind": "cron",
+    "expr": "0 * * * *",
+    "tz": "UTC"
+  },
+  "sessionTarget": "main",
+  "wakeMode": "scheduled",
+  "payload": {
+    "kind": "agentTurn",
+    "message": "Fetch current top 20 Hacker News front-page stories and persist them.",
+    "timeoutSeconds": 600
+  }
+}

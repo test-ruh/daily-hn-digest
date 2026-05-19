@@ -1,0 +1,33 @@
+name: main
+args:
+  run_id:
+    default: $(uuidgen)
+env:
+  RUN_ID: ${run_id}
+  PG_CONNECTION_STRING: ${PG_CONNECTION_STRING}
+  ORG_ID: ${ORG_ID}
+  AGENT_ID: ${AGENT_ID}
+steps:
+  - id: provision-schema
+    run: python3 scripts/data_writer.py provision
+    timeout_ms: 30000
+  - id: fetch-hacker-news-front-page
+    run: bash skills/fetch-hacker-news-front-page/scripts/run.sh
+    stdin: "{\"url\":\"https://news.ycombinator.com\"}"
+    timeout_ms: 120000
+    retry: 2
+  - id: parse-hacker-news-stories
+    run: bash skills/parse-hacker-news-stories/scripts/run.sh
+    stdin: "{{steps.fetch-hacker-news-front-page.output}}"
+    timeout_ms: 120000
+    retry: 1
+  - id: derive-story-posted-at
+    run: bash skills/derive-story-posted-at/scripts/run.sh
+    stdin: "{{steps.parse-hacker-news-stories.output}}"
+    timeout_ms: 120000
+    retry: 1
+  - id: upsert-result-stories
+    run: bash skills/upsert-result-stories/scripts/run.sh
+    stdin: "{{steps.derive-story-posted-at.output}}"
+    timeout_ms: 120000
+    retry: 1

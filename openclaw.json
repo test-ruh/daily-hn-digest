@@ -1,0 +1,32 @@
+{
+  "name": "hacker-news-daily-digest",
+  "version": "1.0.0",
+  "description": "Fetches the top 20 Hacker News front-page stories hourly and on dashboard Run now requests, stores them, and shows server-backed Stories and History tabs.",
+  "agent_metadata": {
+    "agent_name": "hacker-news-daily-digest",
+    "agent_id": "hacker-news-daily-digest",
+    "avatar": "🧡",
+    "tone": "personal, concise, utility-focused, and reliable",
+    "domain": "Hacker News dashboard data refresh",
+    "primary_users": "Hacker News readers who want a persisted hourly and on-demand front-page dashboard",
+    "automation_type": "Scheduled and manual dashboard data refresh",
+    "schedule_description": "Once per hour in UTC, plus dashboard Run now requests",
+    "cron_expression": "0 * * * *"
+  },
+  "skills": [
+    "fetch-hacker-news-front-page",
+    "parse-hacker-news-stories",
+    "derive-story-posted-at",
+    "upsert-result-stories",
+    "read-result-stories"
+  ],
+  "workflows": {
+    "main": "workflows/main.yaml"
+  },
+  "cron": {
+    "hourly-hacker-news-fetch": "cron/hourly-hacker-news-fetch.json"
+  },
+  "env": {
+    "required": []
+  }
+}

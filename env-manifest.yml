@@ -1,0 +1,27 @@
+infrastructure:
+  - key: PG_CONNECTION_STRING
+    label: OpenClaw database connection
+    required: false
+    secret: true
+    platform_managed: true
+    description: "Platform-managed PostgreSQL connection used to write and read persisted result_stories data."
+  - key: ORG_ID
+    label: OpenClaw organization ID
+    required: false
+    secret: false
+    platform_managed: true
+    description: "Platform-managed organization identifier for this agent run."
+  - key: AGENT_ID
+    label: OpenClaw agent ID
+    required: false
+    secret: false
+    platform_managed: true
+    description: "Platform-managed agent identifier for this agent run."
+  - key: RUN_ID
+    label: OpenClaw run ID
+    required: false
+    secret: false
+    platform_managed: true
+    description: "Platform-managed unique identifier for each workflow run."
+connector: []
+channel: []
